@@ -22,7 +22,7 @@ public class Capacitor3KakaoLoginPlugin extends Plugin {
     @Override
     public void load() {
         super.load();
-        implementation = new CapacitorKakaoLogin(getActivity());
+        implementation = new Capacitor3KakaoLogin(getActivity());
     }
 
     @PluginMethod
