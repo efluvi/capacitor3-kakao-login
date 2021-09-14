@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="app_name">exampleForIonic</string>
+  <string name="title_activity_main">exampleForIonic</string>
+  <string name="package_name">io.ionic.starter</string>
+  <string name="custom_url_scheme">io.ionic.starter</string>
+  <string name="kakao_app_key">kkba2d2cf331e7f4a7fdb0c8f3b3cecc</string>
+  <string name="kakao_scheme">kakaokkba2d2cf331e7f4a7fdb0c8f3b3cecc</string>
+  <string name="kakaolink_host">kakaolink</string>
+</resources>
