@@ -265,16 +265,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 <docgen-index>
 
-- [capacitor3-kakao-login](#capacitor3-kakao-login)
-  - [Install](#install)
-- [android](#android)
-- [IOS](#ios)
-  - [API](#api)
-    - [initializeKakao(...)](#initializekakao)
-    - [kakaoLogin()](#kakaologin)
-    - [kakaoLogout()](#kakaologout)
-    - [kakaoUnlink()](#kakaounlink)
-    - [sendLinkFeed(...)](#sendlinkfeed)
+* [`initializeKakao(...)`](#initializekakao)
+* [`kakaoLogin()`](#kakaologin)
+* [`kakaoLogout()`](#kakaologout)
+* [`kakaoUnlink()`](#kakaounlink)
+* [`sendLinkFeed(...)`](#sendlinkfeed)
 
 </docgen-index>
 
