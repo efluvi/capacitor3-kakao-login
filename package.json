@@ -42,7 +42,7 @@
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "release": "npm i && npm run prepublishOnly && np --any-branch --no-tests"
+    "release": "npm i && npm run prepublishOnly && np --any-branch --no-tests && echo 'done'"
   },
   "devDependencies": {
     "@capacitor/android": "^3.0.0",
