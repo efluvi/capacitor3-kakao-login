@@ -3,7 +3,7 @@ import Capacitor
 
 import KakaoSDKUser
 import KakaoSDKCommon
-import KakaoSDKLink
+import KakaoSDKShare
 import KakaoSDKTemplate
 
 
@@ -105,7 +105,7 @@ import KakaoSDKTemplate
 
         //생성한 메시지 템플릿 객체를 jsonObject로 변환
             if let templateJsonObject = SdkUtils.toJsonObject(feedTemplateJsonData) {
-                LinkApi.shared.defaultLink(templateObject:templateJsonObject) {(linkResult, error) in
+                ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(linkResult, error) in
                     if let error = error {
                         print(error)
                         call.reject("error")
