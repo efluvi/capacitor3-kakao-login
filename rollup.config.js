@@ -1,3 +1,5 @@
+import commonjs from 'rollup-plugin-commonjs';
+
 export default {
   input: 'dist/esm/index.js',
   output: [
@@ -7,7 +9,9 @@ export default {
       name: 'Capacitor3KakaoLogin',
       globals: {
         '@capacitor/core': 'capacitorExports',
+        'dist/esm/assets/kakao.js': 'self',
       },
+      context: 'null',
       sourcemap: true,
       inlineDynamicImports: true,
     },
@@ -17,6 +21,13 @@ export default {
       sourcemap: true,
       inlineDynamicImports: true,
     },
+  ],
+  plugins: [
+    commonjs({
+      namedExports: {
+        'dist/esm/assets/kakao.js': ['init'],
+      },
+    }),
   ],
   external: ['@capacitor/core'],
 };
