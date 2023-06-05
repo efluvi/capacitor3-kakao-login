@@ -1,7 +1,7 @@
 import { WebPlugin } from '@capacitor/core';
 
-// import * as Kakao from './assets/kakao';
-const Kakao = require('./lib/kakao.js');
+import * as Kakao from './assets/kakao_js_sdk_2_2_0_kakao';
+// const Kakao = require('./assets/kakao_js_sdk_2_2_0_kakao');
 export class Capacitor3KakaoLoginWeb
   extends WebPlugin
   implements Capacitor3KakaoLoginWeb {
