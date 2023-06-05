@@ -13,6 +13,9 @@
     "ios/Plugin/",
     "Capacitor3KakaoLogin.podspec"
   ],
+  "engines": {
+    "node": "16"
+  },
   "author": "bdhwan",
   "license": "MIT",
   "repository": {
