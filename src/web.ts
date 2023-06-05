@@ -1,10 +1,12 @@
 import { WebPlugin } from '@capacitor/core';
+import { Capacitor3KakaoLoginPlugin } from './definitions';
 
-import * as Kakao from './assets/kakao';
+declare var Kakao: any;
 
 export class Capacitor3KakaoLoginWeb
   extends WebPlugin
-  implements Capacitor3KakaoLoginWeb {
+  implements Capacitor3KakaoLoginPlugin
+{
   web_key: any;
 
   initializeKakao(options: { app_key: string; web_key: string }) {
