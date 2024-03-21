@@ -1,6 +1,6 @@
 # capacitor3-kakao-login
 
-kakao login for capacitor3
+This plugin is kakao login for capacitor5 even if it's name is capacitor3.
 
 ## Install
 
