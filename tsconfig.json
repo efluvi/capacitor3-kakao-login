@@ -14,7 +14,9 @@
     "pretty": true,
     "sourceMap": true,
     "strict": true,
+    "allowJs": true,
     "target": "es2017"
   },
-  "files": ["src/index.ts"]
+  "files": ["src/index.ts"],
+  "include": ["src/assets/**.*"]
 }

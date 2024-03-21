@@ -1,7 +1,7 @@
 {
   "name": "capacitor3-kakao-login",
-  "version": "0.1.12",
-  "description": "kakao login for capacitor3",
+  "version": "0.5.0",
+  "description": "kakao login for capacitor5",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -13,9 +13,6 @@
     "ios/Plugin/",
     "Capacitor3KakaoLogin.podspec"
   ],
-  "engines": {
-    "node": "16"
-  },
   "author": "bdhwan",
   "license": "MIT",
   "repository": {
@@ -32,11 +29,11 @@
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
-    "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin && cd ..",
+    "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS && cd ..",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
     "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
-    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- autocorrect --format",
+    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
@@ -44,8 +41,7 @@
     "build": "npm run clean && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
-    "prepublishOnly": "npm run build",
-    "release": "npm i && npm run prepublishOnly && np --any-branch --no-tests && echo 'done'"
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@capacitor/android": "^5.0.0",
@@ -60,9 +56,9 @@
     "prettier-plugin-java": "~1.0.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.32.0",
+    "rollup-plugin-copy": "^3.5.0",
     "swiftlint": "^1.0.1",
-    "typescript": "~4.1.5",
-    "np": "8.0.2"
+    "typescript": "~4.1.5"
   },
   "peerDependencies": {
     "@capacitor/core": "^5.0.0"

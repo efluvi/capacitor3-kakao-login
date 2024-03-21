@@ -27,71 +27,71 @@ public class Capacitor3KakaoLogin {
     public void kakaoLogin(PluginCall call) {
         if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(this.activity)) {
             UserApiClient
-                .getInstance()
-                .loginWithKakaoTalk(
-                    this.activity,
-                    (oAuthToken, error) -> {
-                        if (error != null) {
-                            Log.e(TAG, "로그인 실패", error);
-                            call.reject(error.toString());
-                        } else if (oAuthToken != null) {
-                            Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
-                            JSObject ret = new JSObject();
-                            ret.put("value", oAuthToken.getAccessToken());
-                            call.resolve(ret);
-                        } else {
-                            call.reject("no_data");
-                        }
-                        return null;
-                    }
-                );
+                    .getInstance()
+                    .loginWithKakaoTalk(
+                            this.activity,
+                            (oAuthToken, error) -> {
+                                if (error != null) {
+                                    Log.e(TAG, "로그인 실패", error);
+                                    call.reject(error.toString());
+                                } else if (oAuthToken != null) {
+                                    Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
+                                    JSObject ret = new JSObject();
+                                    ret.put("value", oAuthToken.getAccessToken());
+                                    call.resolve(ret);
+                                } else {
+                                    call.reject("no_data");
+                                }
+                                return null;
+                            }
+                    );
         } else {
             UserApiClient
-                .getInstance()
-                .loginWithKakaoAccount(
-                    this.activity,
-                    (oAuthToken, error) -> {
-                        if (error != null) {
-                            Log.e(TAG, "로그인 실패", error);
-                            call.reject(error.toString());
-                        } else if (oAuthToken != null) {
-                            Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
-                            JSObject ret = new JSObject();
-                            ret.put("value", oAuthToken.getAccessToken());
-                            call.resolve(ret);
-                        } else {
-                            call.reject("no_data");
-                        }
-                        return null;
-                    }
-                );
+                    .getInstance()
+                    .loginWithKakaoAccount(
+                            this.activity,
+                            (oAuthToken, error) -> {
+                                if (error != null) {
+                                    Log.e(TAG, "로그인 실패", error);
+                                    call.reject(error.toString());
+                                } else if (oAuthToken != null) {
+                                    Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
+                                    JSObject ret = new JSObject();
+                                    ret.put("value", oAuthToken.getAccessToken());
+                                    call.resolve(ret);
+                                } else {
+                                    call.reject("no_data");
+                                }
+                                return null;
+                            }
+                    );
         }
     }
 
     public void kakaoLogout(PluginCall call) {
         UserApiClient
-            .getInstance()
-            .logout(
-                error -> {
-                    JSObject ret = new JSObject();
-                    ret.put("value", "done");
-                    call.resolve(ret);
-                    return null;
-                }
-            );
+                .getInstance()
+                .logout(
+                        error -> {
+                            JSObject ret = new JSObject();
+                            ret.put("value", "done");
+                            call.resolve(ret);
+                            return null;
+                        }
+                );
     }
 
     public void kakaoUnlink(PluginCall call) {
         UserApiClient
-            .getInstance()
-            .unlink(
-                error -> {
-                    JSObject ret = new JSObject();
-                    ret.put("value", "done");
-                    call.resolve(ret);
-                    return null;
-                }
-            );
+                .getInstance()
+                .unlink(
+                        error -> {
+                            JSObject ret = new JSObject();
+                            ret.put("value", "done");
+                            call.resolve(ret);
+                            return null;
+                        }
+                );
     }
 
     public void sendLinkFeed(PluginCall call) {
@@ -101,20 +101,20 @@ public class Capacitor3KakaoLogin {
         buttons.add(new Button(call.getString("button_title"), link));
         FeedTemplate feed = new FeedTemplate(content, null, buttons);
         LinkClient
-            .getInstance()
-            .defaultTemplate(
-                this.activity,
-                feed,
-                (linkResult, error) -> {
-                    if (error != null) {} else if (linkResult != null) {
-                        this.activity.startActivity(linkResult.getIntent());
-                    }
+                .getInstance()
+                .defaultTemplate(
+                        this.activity,
+                        feed,
+                        (linkResult, error) -> {
+                            if (error != null) {} else if (linkResult != null) {
+                                this.activity.startActivity(linkResult.getIntent());
+                            }
 
-                    JSObject ret = new JSObject();
-                    ret.put("value", "done");
-                    call.resolve(ret);
-                    return null;
-                }
-            );
+                            JSObject ret = new JSObject();
+                            ret.put("value", "done");
+                            call.resolve(ret);
+                            return null;
+                        }
+                );
     }
 }
