@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 
-import * as Kakao from './assets/kakao';
+declare var Kakao: any;
 
 export class Capacitor3KakaoLoginWeb
   extends WebPlugin
