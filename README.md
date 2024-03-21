@@ -9,10 +9,28 @@ npm install capacitor3-kakao-login
 npx cap sync
 ```
 
+<br><br>
+
+# browser
+
+add kakao.js file into src/assets and include in index.html
+
+```
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ionic App</title>
+    <script src="assets/kakao.js"></script>
+  </head>
+  ....
+```
 
 <br><br>
+
 # android
-add kakao repository (https://devrepo.kakao.com/nexus/content/groups/public/) in root build.gradle 
+
+add kakao repository (https://devrepo.kakao.com/nexus/content/groups/public/) in root build.gradle
 
 ```
 allprojects {
@@ -25,28 +43,27 @@ allprojects {
 
 ```
 
-
 add Global Application for initialize kakao sdk
 
 ```java
 package io.ionic.starter;
 
 import android.app.Application;
-
 import com.fumi.capacitor3_kakao_login.Capacitor3KakaoLoginPlugin;
 
 public class GlobalApplication extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Capacitor3KakaoLoginPlugin.initKakaoSdk(this,getString(R.string.kakao_app_key));
-    }
-
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    Capacitor3KakaoLoginPlugin.initKakaoSdk(
+      this,
+      getString(R.string.kakao_app_key)
+    );
+  }
 }
 
 ```
-
 
 add kakao app_key and kakao_schema in res/string.xml
 
@@ -56,8 +73,8 @@ add kakao app_key and kakao_schema in res/string.xml
   <string name="kakaolink_host">kakaolink</string>
 ```
 
-
 add kakao data inside application in AndroidManifest.xml
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -138,10 +155,10 @@ add kakao data inside application in AndroidManifest.xml
 
 ```
 
-
 <br><br>
 
 # IOS
+
 add KAKAO_APP_KEY in info.plist
 
 ```plist
@@ -190,7 +207,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
         let key = Bundle.main.infoDictionary?["KAKAO_APP_KEY"] as? String
         KakaoSDK.initSDK(appKey: key!)
         // Override point for customization after application launch.
@@ -254,25 +271,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ```
 
-
-
-
 ## API
-
-
-
-
 
 <docgen-index>
 
-* [`initializeKakao(...)`](#initializekakao)
-* [`kakaoLogin()`](#kakaologin)
-* [`kakaoLogout()`](#kakaologout)
-* [`kakaoUnlink()`](#kakaounlink)
-* [`sendLinkFeed(...)`](#sendlinkfeed)
+- [capacitor3-kakao-login](#capacitor3-kakao-login)
+  - [Install](#install)
+- [browser](#browser)
+- [android](#android)
+- [IOS](#ios)
+  - [API](#api)
+    - [initializeKakao(...)](#initializekakao)
+    - [kakaoLogin()](#kakaologin)
+    - [kakaoLogout()](#kakaologout)
+    - [kakaoUnlink()](#kakaounlink)
+    - [sendLinkFeed(...)](#sendlinkfeed)
 
 </docgen-index>
-
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
@@ -289,8 +304,7 @@ initializeKakao(options: { app_key: string; web_key: string; }) => Promise<{ val
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
---------------------
-
+---
 
 ### kakaoLogin()
 
@@ -300,8 +314,7 @@ kakaoLogin() => Promise<{ value: string; }>
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
---------------------
-
+---
 
 ### kakaoLogout()
 
@@ -311,8 +324,7 @@ kakaoLogout() => Promise<{ value: string; }>
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
---------------------
-
+---
 
 ### kakaoUnlink()
 
@@ -322,8 +334,7 @@ kakaoUnlink() => Promise<{ value: string; }>
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
---------------------
-
+---
 
 ### sendLinkFeed(...)
 
@@ -337,6 +348,6 @@ sendLinkFeed(options: { title: string; description: string; image_url: string; i
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
---------------------
+---
 
 </docgen-api>
