@@ -27,6 +27,9 @@
     "plugin",
     "native"
   ],
+  "engines": {
+    "node": "18.16.0"
+  },
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
     "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS && cd ..",
@@ -42,7 +45,7 @@
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "release": "npm i && npm run prepublishOnly && np --any-branch --no-tests && echo 'done'"
+    "release": "np --any-branch --no-tests && echo 'done'"
   },
   "devDependencies": {
     "@capacitor/android": "^5.0.0",
