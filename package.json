@@ -28,7 +28,7 @@
     "native"
   ],
   "engines": {
-    "node": "18.16.0"
+    "node": "20.16.0"
   },
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
