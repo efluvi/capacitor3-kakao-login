@@ -1,40 +1,68 @@
 import { WebPlugin } from '@capacitor/core';
 
-declare var Kakao: any;
+// declare var Kakao: any;
+declare global {
+  interface Window {
+    Kakao: any; // You can replace 'any' with a more specific type if available
+  }
+}
 
 export class Capacitor3KakaoLoginWeb
   extends WebPlugin
   implements Capacitor3KakaoLoginWeb
 {
+  private kakaoScriptId = 'kakao-js-sdk'; // Unique ID for the Kakao SDK script
   web_key: any;
 
   initializeKakao(options: { app_key: string; web_key: string }) {
-    return new Promise<{ value: string }>(resolve => {
-      if (!this.web_key) {
-        this.web_key = options.web_key;
-        Kakao.init(this.web_key);
+    return new Promise<{ value: string }>(async (resolve, reject) => {
+      try {
+        if (!this.web_key) {
+          this.web_key = options.web_key;
+        }
+        resolve({ value: 'done' });
+      } catch (error) {
+        console.error(error);
+        reject(error);
       }
-      resolve({ value: 'done' });
     });
   }
 
   //웹 카카오 로그인
   kakaoLogin() {
-    return new Promise<{ value: string }>((resolve, reject) => {
+    return new Promise<{ value: string }>(async (resolve, reject) => {
       if (!this.web_key) {
         reject('kakao_sdk_not_initialzed');
       }
-      const KakaoSdk: any = Kakao;
-      KakaoSdk.Auth.login({
-        success: function (authObj: any) {
-          let { access_token } = authObj;
-          resolve({ value: access_token });
-        },
-        fail: function (err: any) {
-          console.error(err);
-          reject(err);
-        },
-      });
+
+      this.removeKakaoSdk();
+      await this.loadKakaoSdk();
+      if (typeof window['Kakao'] !== 'undefined') {
+        window['Kakao'].init(this.web_key); // Initialize Kakao with your JavaScript key
+      } else {
+        reject(new Error('Kakao undefined'));
+      }
+
+      try {
+        window.Kakao!.Auth.login({
+          throughTalk: true,
+          persistAccessToken: true,
+          success: (response: any) => {
+            console.log(response);
+
+            resolve({
+              value: response.access_token,
+            });
+          },
+          fail: (error: any) => {
+            console.error('Kakao Login Failed', error);
+            reject(new Error('Kakao Login Failed'));
+          },
+        });
+      } catch (e) {
+        console.error('Error during Kakao login', e);
+        reject(e);
+      }
     });
   }
 
@@ -45,7 +73,7 @@ export class Capacitor3KakaoLoginWeb
         reject('kakao_sdk_not_initialzed');
       }
 
-      const KakaoSdk: any = Kakao;
+      const KakaoSdk: any = window['Kakao'];
       KakaoSdk.Auth.logout();
       resolve({ value: 'done' });
     });
@@ -58,7 +86,7 @@ export class Capacitor3KakaoLoginWeb
         reject('kakao_sdk_not_initialzed');
       }
 
-      const KakaoSdk: any = Kakao;
+      const KakaoSdk: any = window['Kakao'];
       KakaoSdk.API.request({
         url: '/v1/user/unlink',
         success: function (response: any) {
@@ -85,7 +113,7 @@ export class Capacitor3KakaoLoginWeb
       if (!this.web_key) {
         reject('kakao_sdk_not_initialzed');
       }
-      const KakaoSdk: any = Kakao;
+      const KakaoSdk: any = window['Kakao'];
       KakaoSdk.Link.sendDefault({
         objectType: 'feed',
         content: {
@@ -108,6 +136,38 @@ export class Capacitor3KakaoLoginWeb
           resolve({ value: 'done' });
         },
       });
+    });
+  }
+
+  private removeKakaoSdk(): void {
+    const script = document.getElementById(this.kakaoScriptId);
+    if (script) {
+      document.head.removeChild(script); // Remove the script from the DOM
+      console.log('Kakao SDK removed');
+    }
+  }
+
+  private loadKakaoSdk(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // Check if the script is already loaded
+      if (document.getElementById(this.kakaoScriptId)) {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.id = this.kakaoScriptId; // Set an ID to reference this script
+      script.src = '//developers.kakao.com/sdk/js/kakao.min.js';
+
+      // script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
+      // script.integrity = 'sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4';
+      // script.crossOrigin = 'anonymous';
+      script.onload = () => {
+        console.log('Kakao SDK loaded');
+        resolve();
+      };
+      script.onerror = () => reject(new Error('Failed to load Kakao SDK'));
+      document.head.appendChild(script);
     });
   }
 }
