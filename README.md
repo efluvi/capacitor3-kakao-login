@@ -73,6 +73,37 @@ add kakao app_key and kakao_schema in res/string.xml
   <string name="kakaolink_host">kakaolink</string>
 ```
 
+## SDK Version
+
+- Android : 2.23.0
+- iOS : 2.23.0+ (Supported via SPM only), 2.22.0 (CocoaPods)
+
+## Install
+
+```bash
+npm install capacitor3-kakao-login
+npx cap sync
+```
+
+### iOS (Swift Package Manager)
+
+**Prerequisites**: Capacitor 6+
+
+If you are using Capacitor 6+, you can use Swift Package Manager to install this plugin.
+When you run `npx cap sync`, Capacitor should automatically detect `Package.swift` and configure the project to use SPM if your project is set up for it.
+
+If you are migrating from CocoaPods, please refer to the [Capacitor SPM Migration Guide](https://capacitorjs.com/docs/ios/spm).
+
+### iOS (CocoaPods)
+
+> [!WARNING]
+> Kakao SDK 2.23.0+ dropped support for CocoaPods. If you must use CocoaPods, you will be limited to Kakao SDK 2.22.0.
+
+```bash
+# Podfile
+pod 'Capacitor3KakaoLogin', :path => '../node_modules/capacitor3-kakao-login'
+```
+
 add kakao data inside application in AndroidManifest.xml
 
 ```xml

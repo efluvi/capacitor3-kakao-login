@@ -1,6 +1,6 @@
 {
   "name": "capacitor3-kakao-login",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "kakao login for capacitor5",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,8 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "Capacitor3KakaoLogin.podspec"
+    "Capacitor3KakaoLogin.podspec",
+    "Package.swift"
   ],
   "author": "bdhwan",
   "license": "MIT",
@@ -41,8 +42,7 @@
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api Capacitor3KakaoLoginPlugin --output-readme README.md --output-json dist/docs.json",
-    "build": "npm run clean && tsc && rollup -c rollup.config.js && ncp ./web_sdk ./dist/",
-    "build-a": "npm run clean",
+    "build": "npm run clean && tsc && rollup -c rollup.config.js",
     "build-b": "tsc",
     "build-c": "rollup -c rollup.config.js",
     "clean": "rimraf ./dist",

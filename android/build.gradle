@@ -57,9 +57,9 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     testImplementation "junit:junit:$junitVersion"
     
-     //  카카오 sdk
-    implementation "com.kakao.sdk:v2-user:2.5.2"
-    implementation "com.kakao.sdk:v2-link:2.5.2"
+    //  카카오 sdk
+    implementation "com.kakao.sdk:v2-user:2.23.0"
+    implementation "com.kakao.sdk:v2-share:2.23.0"
 
 
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"

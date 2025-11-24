@@ -7,7 +7,7 @@ import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.kakao.sdk.common.KakaoSdk;
-import com.kakao.sdk.link.LinkClient;
+import com.kakao.sdk.share.ShareClient;
 import com.kakao.sdk.template.model.Button;
 import com.kakao.sdk.template.model.Content;
 import com.kakao.sdk.template.model.FeedTemplate;
@@ -99,10 +99,10 @@ public class Capacitor3KakaoLogin {
         Content content = new Content(call.getString("title"), call.getString("image_url"), link, call.getString("description"));
         ArrayList<Button> buttons = new ArrayList<>();
         buttons.add(new Button(call.getString("button_title"), link));
-        FeedTemplate feed = new FeedTemplate(content, null, buttons);
-        LinkClient
+        FeedTemplate feed = new FeedTemplate(content, null, null, buttons);
+        ShareClient
                 .getInstance()
-                .defaultTemplate(
+                .shareDefault(
                         this.activity,
                         feed,
                         (linkResult, error) -> {

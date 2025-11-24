@@ -6,7 +6,16 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(Capacitor3KakaoLoginPlugin)
-public class Capacitor3KakaoLoginPlugin: CAPPlugin {
+public class Capacitor3KakaoLoginPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "Capacitor3KakaoLoginPlugin"
+    public let jsName = "Capacitor3KakaoLogin"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "initializeKakao", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "kakaoLogin", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "kakaoLogout", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "kakaoUnlink", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendLinkFeed", returnType: CAPPluginReturnPromise)
+    ]
     private let implementation = Capacitor3KakaoLogin()
 
     //네이티브는 app delegate에서 초기화함
