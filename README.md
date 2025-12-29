@@ -1,6 +1,6 @@
 # capacitor3-kakao-login
 
-This plugin is kakao login for capacitor5 even if it's name is capacitor3.
+This plugin is kakao login for capacitor8 even if it's name is capacitor3.
 
 ## Install
 
@@ -87,9 +87,9 @@ npx cap sync
 
 ### iOS (Swift Package Manager)
 
-**Prerequisites**: Capacitor 6+
+**Prerequisites**: Capacitor 8+
 
-If you are using Capacitor 6+, you can use Swift Package Manager to install this plugin.
+If you are using Capacitor 8+, you can use Swift Package Manager to install this plugin.
 When you run `npx cap sync`, Capacitor should automatically detect `Package.swift` and configure the project to use SPM if your project is set up for it.
 
 If you are migrating from CocoaPods, please refer to the [Capacitor SPM Migration Guide](https://capacitorjs.com/docs/ios/spm).

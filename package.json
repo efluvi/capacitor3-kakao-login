@@ -1,7 +1,7 @@
 {
   "name": "capacitor3-kakao-login",
-  "version": "0.6.5",
-  "description": "kakao login for capacitor5",
+  "version": "0.8.0",
+  "description": "kakao login for capacitor8",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -52,10 +52,10 @@
     "build_custom_module": "npm run build"
   },
   "devDependencies": {
-    "@capacitor/android": "6.0.0",
-    "@capacitor/core": "6.0.0",
+    "@capacitor/android": "8.0.0",
+    "@capacitor/core": "8.0.0",
     "@capacitor/docgen": "^0.0.18",
-    "@capacitor/ios": "6.0.0",
+    "@capacitor/ios": "8.0.0",
     "@ionic/eslint-config": "^0.3.0",
     "@ionic/prettier-config": "^1.0.1",
     "@ionic/swiftlint-config": "^1.1.2",
@@ -71,7 +71,7 @@
     "typescript": "~4.1.5"
   },
   "peerDependencies": {
-    "@capacitor/core": "^6.0.0"
+    "@capacitor/core": "^8.0.0"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
