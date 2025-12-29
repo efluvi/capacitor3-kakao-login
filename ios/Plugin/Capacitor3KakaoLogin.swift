@@ -15,29 +15,32 @@ import KakaoSDKTemplate
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
                     print(error)
-                    // 카카오톡 로그인 실패 시 카카오계정 로그인 시도 (사용자 취소 등은 제외)
-                    // 여기서는 간단히 에러 리턴하지만, 필요 시 에러 타입 체크하여 fallback 가능
-                    call.reject(error.localizedDescription)
+                    call.reject("error")
                 }
                 else {
+
                     call.resolve([
                         "value": oauthToken?.accessToken ?? ""
                     ])
+                    
                 }
             }
         }
         else{
+            
             UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
                     if let error = error {
                         print(error)
-                        call.reject(error.localizedDescription)
+                        call.reject("error")
                     }
                     else {
+
                         call.resolve([
                             "value": oauthToken?.accessToken ?? ""
                         ])
                     }
                 }
+            
         }
     }
     

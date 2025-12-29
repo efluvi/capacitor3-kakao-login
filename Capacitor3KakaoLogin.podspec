@@ -13,12 +13,12 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
   s.ios.deployment_target  = '13.0'
   s.dependency 'Capacitor'
-  s.dependency 'KakaoSDKCommon', '2.22.0'
-  s.dependency 'KakaoSDKAuth', '2.22.0'
-  s.dependency 'KakaoSDKUser', '2.22.0'
-  s.dependency 'KakaoSDKTalk', '2.22.0'
-  s.dependency 'KakaoSDKShare', '2.22.0'
-  s.dependency 'KakaoSDKTemplate', '2.22.0'
+  s.dependency 'KakaoSDKCommon'
+  s.dependency 'KakaoSDKAuth'
+  s.dependency 'KakaoSDKUser'
+  s.dependency 'KakaoSDKTalk'
+  s.dependency 'KakaoSDKShare'
+  s.dependency 'KakaoSDKTemplate'
   
   s.swift_version = '5.1'
 end

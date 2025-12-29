@@ -48,7 +48,8 @@
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "release": "np --any-branch --no-tests && echo 'done'"
+    "release": "np --any-branch --no-tests && echo 'done'",
+    "build_custom_module": "npm run build"
   },
   "devDependencies": {
     "@capacitor/android": "6.0.0",
