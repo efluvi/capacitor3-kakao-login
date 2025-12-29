@@ -1,6 +1,6 @@
 {
   "name": "capacitor3-kakao-login",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "kakao login for capacitor8",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
