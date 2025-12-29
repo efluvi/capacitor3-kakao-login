@@ -12,7 +12,6 @@ export class Capacitor3KakaoLoginWeb
   implements Capacitor3KakaoLoginWeb
 {
   private kakaoScriptId = 'kakao-js-sdk'; // Unique ID for the Kakao SDK script
-  private readonly KAKAO_SDK_VERSION = '2.7.4';
   web_key: any;
 
   initializeKakao(options: { app_key: string; web_key: string }) {
@@ -158,8 +157,7 @@ export class Capacitor3KakaoLoginWeb
 
       const script = document.createElement('script');
       script.id = this.kakaoScriptId; // Set an ID to reference this script
-      script.src = `https://t1.kakaocdn.net/kakao_js_sdk/${this.KAKAO_SDK_VERSION}/kakao.min.js`;
-      script.crossOrigin = 'anonymous';
+      script.src = 'https://developers.kakao.com/sdk/js/kakao.min.js';
       script.onload = () => {
         console.log('Kakao SDK loaded');
         resolve();
