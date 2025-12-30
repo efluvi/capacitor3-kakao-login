@@ -4,6 +4,7 @@ export interface Capacitor3KakaoLoginPlugin {
     web_key: string;
   }): Promise<{ value: string }>;
   kakaoLogin(): Promise<{ value: string }>;
+  handleKakaoCallback(): Promise<{ value: string }>;
   kakaoLogout(): Promise<{ value: string }>;
   kakaoUnlink(): Promise<{ value: string }>;
   sendLinkFeed(options: {
