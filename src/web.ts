@@ -1,4 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
+import type { Capacitor3KakaoLoginPlugin } from './definitions';
 
 // declare var Kakao: any;
 declare global {
@@ -9,7 +10,7 @@ declare global {
 
 export class Capacitor3KakaoLoginWeb
   extends WebPlugin
-  implements Capacitor3KakaoLoginWeb
+  implements Capacitor3KakaoLoginPlugin
 {
   private kakaoScriptId = 'kakao-js-sdk'; // Unique ID for the Kakao SDK script
   web_key: any;
@@ -50,7 +51,7 @@ export class Capacitor3KakaoLoginWeb
 
         // SDK 2.0: authorize() 메서드 사용 (리다이렉트 방식)
         window.Kakao!.Auth.authorize({
-          redirectUri: window.location.origin + '/kakao-login-callback',
+          redirectUri: window.location.origin + '/login-kakao-callback',
           throughTalk: true,
           state: 'kakao_login_' + Date.now(),
         });
@@ -74,20 +75,21 @@ export class Capacitor3KakaoLoginWeb
       }
 
 
-      // SDK 2.0 초기화
-      window.Kakao!.init(this.web_key);
-
-
-      console.log('handleKakaoCallback!!');
       try {
-        // URL 파라미터 확인
+        this.removeKakaoSdk();
+        await this.loadKakaoSdk();
+        if (typeof window['Kakao'] === 'undefined') {
+          reject(new Error('handleKakaoCallback Kakao undefined'));
+          return;
+        }
+        // SDK 2.0 초기화
+        window.Kakao!.init(this.web_key);
+ // URL 파라미터 확인
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         const error = urlParams.get('error');
-        
+       
         if (error) {
-          // 에러 파라미터가 있는 경우
-          window.history.replaceState({}, '', window.location.pathname);
           reject(new Error(`Kakao Login Failed: ${error}`));
           return;
         }
@@ -101,14 +103,21 @@ export class Capacitor3KakaoLoginWeb
           );
           return;
         }
-        
-        const accessToken = window.Kakao!.Auth.getAccessToken();
-        console.log('accessToken:', accessToken);
+
+        // REST API를 통해 access token 획득
+        try {
+
+        const accessToken = await this.getAccessTokenFromCode(code);
+          
         if (accessToken) {
           // URL 파라미터 정리
           window.history.replaceState({}, '', window.location.pathname);
           resolve({ value: accessToken });
-        } else {
+          } else {
+            reject(new Error('Kakao Login Failed: Token exchange failed'));
+          }
+        } catch (tokenError) {
+          console.error('Error getting access token:', tokenError);
           reject(new Error('Kakao Login Failed: Token exchange failed'));
         }
       } catch (e) {
@@ -254,6 +263,43 @@ export class Capacitor3KakaoLoginWeb
         reject(e);
       }
     });
+  }
+
+  private async getAccessTokenFromCode(code: string): Promise<string> {
+    const tokenUrl = 'https://kauth.kakao.com/oauth/token';
+    const redirectUri = window.location.origin + '/login-kakao-callback';
+    
+    const params = new URLSearchParams({
+      grant_type: 'authorization_code',
+      client_id: this.web_key,
+      redirect_uri: redirectUri,
+      code: code,
+    });
+
+    try {
+      const response = await fetch(tokenUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const tokenData = await response.json();
+      
+      if (tokenData.error) {
+        throw new Error(`Kakao token error: ${tokenData.error_description || tokenData.error}`);
+      }
+
+      return tokenData.access_token;
+    } catch (error) {
+      console.error('Error exchanging code for token:', error);
+      throw error;
+    }
   }
 
   private removeKakaoSdk(): void {
