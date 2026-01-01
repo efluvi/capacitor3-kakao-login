@@ -14,6 +14,8 @@ export class Capacitor3KakaoLoginWeb
 {
   private kakaoScriptId = 'kakao-js-sdk'; // Unique ID for the Kakao SDK script
   web_key: any;
+  private redirectUri: string | null = null;
+  private webSdkVersion: 'v1' | 'v2' = 'v2';
 
   initializeKakao(options: { app_key: string; web_key: string }) {
     return new Promise<{ value: string }>(async (resolve, reject) => {
@@ -29,36 +31,67 @@ export class Capacitor3KakaoLoginWeb
     });
   }
 
-  //웹 카카오 로그인 (SDK 2.0 방식)
-  kakaoLogin() {
+  //웹 카카오 로그인
+  kakaoLogin(options?: { redirectUri?: string; webSdkVersion?: 'v1' | 'v2' }) {
     return new Promise<{ value: string }>(async (resolve, reject) => {
       if (!this.web_key) {
         reject('kakao_sdk_not_initialzed');
         return;
       }
 
+      // webSdkVersion 설정: 파라미터가 있으면 사용, 없으면 기본값 'v2' 사용
+      const sdkVersion = options?.webSdkVersion || 'v2';
+      this.webSdkVersion = sdkVersion;
+
       try {
         this.removeKakaoSdk();
-        await this.loadKakaoSdk();
+        await this.loadKakaoSdk(sdkVersion);
 
         if (typeof window['Kakao'] === 'undefined') {
           reject(new Error('Kakao undefined'));
           return;
         }
 
-        // SDK 2.0 초기화
+        // SDK 초기화
         window.Kakao!.init(this.web_key);
 
-        // SDK 2.0: authorize() 메서드 사용 (리다이렉트 방식)
-        window.Kakao!.Auth.authorize({
-          redirectUri: window.location.origin + '/login-kakao-callback',
-          throughTalk: true,
-          state: 'kakao_login_' + Date.now(),
-        });
+        if (sdkVersion === 'v1') {
+          // SDK 1.x 방식: login() 메서드 사용 (콜백 방식)
+          try {
+            window.Kakao!.Auth.login({
+              throughTalk: true,
+              persistAccessToken: true,
+              success: (response: any) => {
+                console.log(response);
+                resolve({
+                  value: response.access_token,
+                });
+              },
+              fail: (error: any) => {
+                console.error('Kakao Login Failed', error);
+                reject(new Error('Kakao Login Failed'));
+              },
+            });
+          } catch (e) {
+            console.error('Error during Kakao login', e);
+            reject(e);
+          }
+        } else {
+          // SDK 2.x 방식: authorize() 메서드 사용 (리다이렉트 방식)
+          // redirectUri 설정: 파라미터가 있으면 사용, 없으면 기본값 사용
+          const redirectUri = options?.redirectUri || window.location.origin + '/login-kakao-callback';
+          this.redirectUri = redirectUri;
 
-        // 리다이렉트가 발생하므로 Promise는 즉시 resolve
-        // 실제 토큰은 handleKakaoCallback()에서 처리
-        resolve({ value: 'redirected' });
+          window.Kakao!.Auth.authorize({
+            redirectUri: redirectUri,
+            throughTalk: true,
+            state: 'kakao_login_' + Date.now(),
+          });
+
+          // 리다이렉트가 발생하므로 Promise는 즉시 resolve
+          // 실제 토큰은 handleKakaoCallback()에서 처리
+          resolve({ value: 'redirected' });
+        }
       } catch (e) {
         console.error('Error during Kakao login', e);
         reject(e);
@@ -77,7 +110,7 @@ export class Capacitor3KakaoLoginWeb
 
       try {
         this.removeKakaoSdk();
-        await this.loadKakaoSdk();
+        await this.loadKakaoSdk('v2');
         if (typeof window['Kakao'] === 'undefined') {
           reject(new Error('handleKakaoCallback Kakao undefined'));
           return;
@@ -267,7 +300,7 @@ export class Capacitor3KakaoLoginWeb
 
   private async getAccessTokenFromCode(code: string): Promise<string> {
     const tokenUrl = 'https://kauth.kakao.com/oauth/token';
-    const redirectUri = window.location.origin + '/login-kakao-callback';
+    const redirectUri = this.redirectUri || window.location.origin + '/login-kakao-callback';
     
     const params = new URLSearchParams({
       grant_type: 'authorization_code',
@@ -310,7 +343,7 @@ export class Capacitor3KakaoLoginWeb
     }
   }
 
-  private loadKakaoSdk(): Promise<void> {
+  private loadKakaoSdk(version: 'v1' | 'v2' = 'v2'): Promise<void> {
     return new Promise((resolve, reject) => {
       // Check if the script is already loaded
       if (document.getElementById(this.kakaoScriptId)) {
@@ -320,10 +353,17 @@ export class Capacitor3KakaoLoginWeb
 
       const script = document.createElement('script');
       script.id = this.kakaoScriptId; // Set an ID to reference this script
-      // SDK 2.x - Kakao.Auth.authorize() 리다이렉트 방식 사용
-      script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.7/kakao.min.js';
-      // script.integrity = 'sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka';
-      // script.crossOrigin = 'anonymous';
+      
+      if (version === 'v1') {
+        // SDK 1.x
+        script.src = '//developers.kakao.com/sdk/js/kakao.min.js';
+      } else {
+        // SDK 2.x - Kakao.Auth.authorize() 리다이렉트 방식 사용
+        script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.7/kakao.min.js';
+        // script.integrity = 'sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka';
+        // script.crossOrigin = 'anonymous';
+      }
+      
       script.onload = () => {
         console.log('Kakao SDK loaded');
         resolve();
