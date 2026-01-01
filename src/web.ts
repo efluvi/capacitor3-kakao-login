@@ -15,7 +15,6 @@ export class Capacitor3KakaoLoginWeb
   private kakaoScriptId = 'kakao-js-sdk'; // Unique ID for the Kakao SDK script
   web_key: any;
   private redirectUri: string | null = null;
-  private webSdkVersion: 'v1' | 'v2' = 'v2';
 
   initializeKakao(options: { app_key: string; web_key: string }) {
     return new Promise<{ value: string }>(async (resolve, reject) => {
@@ -41,8 +40,7 @@ export class Capacitor3KakaoLoginWeb
 
       // webSdkVersion 설정: 파라미터가 있으면 사용, 없으면 기본값 'v2' 사용
       const sdkVersion = options?.webSdkVersion || 'v2';
-      this.webSdkVersion = sdkVersion;
-
+     
       try {
         this.removeKakaoSdk();
         await this.loadKakaoSdk(sdkVersion);
